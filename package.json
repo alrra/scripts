@@ -24,7 +24,7 @@
   "description": "Scripts that can help automate certain things using Travis CI",
   "devDependencies": {
     "babel-cli": "^6.0.14",
-    "babel-plugin-transform-async-to-generator": "6.0.14",
+    "babel-plugin-transform-async-to-generator": "6.1.18",
     "babel-plugin-transform-runtime": "^6.0.14",
     "babel-polyfill": "^6.0.16",
     "babel-preset-es2015": "^6.0.14",
