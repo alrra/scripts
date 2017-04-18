@@ -215,6 +215,10 @@ main() {
 
         repository_url="$(get_repository_url)"
 
+        # Ensure the commands are executed using the root directory of the repository as
+        # the current working directory
+        cd "$TRAVIS_BUILD_DIR"
+
         execute "$commands" \
             &> >(print_error_stream) \
             1> /dev/null
