@@ -63,6 +63,9 @@ OPTIONS:
 
         Specifies the name of the branch on which the content resulting from running the commands will be moved on.
 
+    --distribution-repository <git_repository_url>
+
+        Specifies the git repository url to push
 
     -m, --commit-message <message>
 
@@ -119,6 +122,7 @@ main() {
     local commitMessage=""
     local directory=""
     local distributionBranch=""
+    local distributionRepository=""
     local sourceBranch=""
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -160,6 +164,17 @@ main() {
                     continue
                 else
                     print_error "ERROR: A non-empty \"-db/--distribution-branch <branch_name>\" argument needs to be specified"
+                    exit 1
+                fi
+            ;;
+
+            --distribution-repository)
+                if [ "$2" ]; then
+                    distributionRepository="$2"
+                    shift 2
+                    continue
+                else
+                    echo "ERROR: A non-empty \"--distributionRepository <git_repository_url>\" argument needs to be specified" >&2
                     exit 1
                 fi
             ;;
@@ -213,7 +228,11 @@ main() {
     if [ "$TRAVIS_BRANCH" == "$sourceBranch" ] && \
        [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
 
-        repository_url="$(get_repository_url)"
+        if [ "$distributionRepository" != "" ]; then
+            repository_url="$distributionRepository"
+        else
+            repository_url="$(get_repository_url)"
+        fi
 
         execute "$commands" \
             &> >(print_error_stream) \
